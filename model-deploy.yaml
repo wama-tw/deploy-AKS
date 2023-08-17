@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aks-tfserving-text-classification
+  labels:
+    app: aks-tfserving-text-classification
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: aks-tfserving-text-classification
+  template:
+    metadata:
+      labels:
+        app: aks-tfserving-text-classification
+    spec:
+      containers:
+      - name: aks-tfserving-text-classification
+        image: tfservingtextclassification.azurecr.io/example-models-image:latest
+        env:
+        - name: MODEL_BASE_PATH
+          value: /var/azure-app/azure-models/text-classification
+        - name: MODEL_NAME
+          value: text-classification
+        ports:
+        - containerPort: 8501
